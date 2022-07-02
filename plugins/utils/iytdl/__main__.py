@@ -7,12 +7,13 @@ from pyrogram.errors import MediaEmpty, MessageIdInvalid, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, InputMediaPhoto
 from userge import Message, config as Config, userge
 from iytdl import main
+from ...builtin import sudo
 
 
 if userge.has_bot:
     def check_owner(func):
         async def wrapper(_, c_q: CallbackQuery):
-            if c_q.from_user and c_q.from_user.id in (list(Config.OWNER_ID) + list(Config.SUDO_USERS)):
+            if c_q.from_user and c_q.from_user.id in (list(Config.OWNER_ID) + list(sudo.USERS)):
                 try:
                     await func(c_q)
                 except MessageNotModified:
