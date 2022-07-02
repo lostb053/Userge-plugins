@@ -15,11 +15,14 @@ from shutil import rmtree
 from google_images_download.google_images_download import googleimagesdownload
 from pyrogram.errors import FloodWait
 from pyrogram.types import InputMediaDocument, InputMediaPhoto
+from lazyleech.lazyleech.plugins.ytdl import DOWN_PATH
 
-from userge import config as Config, Message, pool, userge
+from userge import Message, pool, userge
 
-from userge.plugins.misc.upload import doc_upload, photo_upload
+from ...misc.upload import doc_upload, photo_upload
 
+
+DOWN_PATH = "downloads"
 
 def sublists(input_list: list, width: int = 3):
     return [input_list[x : x + width] for x in range(0, len(input_list), width)]
@@ -126,7 +129,7 @@ async def gimg_down(message: Message):
         end_t = datetime.now()
         time_taken_s = (end_t - start_t).seconds
         await message.edit(
-            f"Downloaded {limit} {media_type} to `{os.path.join(Config.DOWN_PATH, text)}` in {time_taken_s}"
+            f"Downloaded {limit} {media_type} to `{os.path.join(DOWN_PATH, text)}` in {time_taken_s}"
             f"sec with {results[1]} errors.",
             log=__name__,
         )
@@ -150,7 +153,7 @@ async def get_arguments(
         arguments["no_directory"] = "no_directory"
     else:
         await check_path(path_name=query)
-        output_directory = Config.DOWN_PATH
+        output_directory = DOWN_PATH
     arguments["output_directory"] = output_directory
     if color:
         arguments["color"] = color
@@ -168,7 +171,7 @@ async def get_arguments(
 
 @pool.run_in_thread
 def check_path(path_name: str = "GIMG"):
-    path_ = os.path.join(Config.DOWN_PATH, path_name)
+    path_ = os.path.join(DOWN_PATH, path_name)
     if os.path.lexists(path_):
         rmtree(path_, ignore_errors=True)
     if path_name != "GIMG":
