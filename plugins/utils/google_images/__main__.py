@@ -16,7 +16,7 @@ from google_images_download.google_images_download import googleimagesdownload
 from pyrogram.errors import FloodWait
 from pyrogram.types import InputMediaDocument, InputMediaPhoto
 
-from userge import Config, Message, pool, userge
+from userge import config as Config, Message, pool, userge
 
 from userge.plugins.misc.upload import doc_upload, photo_upload
 
