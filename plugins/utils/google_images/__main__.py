@@ -15,7 +15,6 @@ from shutil import rmtree
 from google_images_download.google_images_download import googleimagesdownload
 from pyrogram.errors import FloodWait
 from pyrogram.types import InputMediaDocument, InputMediaPhoto
-from lazyleech.lazyleech.plugins.ytdl import DOWN_PATH
 
 from userge import Message, pool, userge
 
