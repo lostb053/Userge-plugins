@@ -5,7 +5,7 @@ from uuid import uuid4
 from pyrogram import Client, filters
 from pyrogram.errors import MediaEmpty, MessageIdInvalid, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, InputMediaPhoto
-from userge import Message, Config, userge
+from userge import Message, config as Config, userge
 from iytdl import main
 
 
