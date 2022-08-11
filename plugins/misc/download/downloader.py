@@ -27,10 +27,10 @@ from userge.utils.exceptions import ProcessCanceled
 
 
 async def handle_download(message: Message, resource: Union[Message, str],
-                          from_url: bool = False) -> Tuple[str, int]:
+                          from_url: bool = False, single_thread: bool = False) -> Tuple[str, int]:
     """ download from resource """
     if not isinstance(resource, PyroMessage):
-        return await url_download(message, resource)
+        return await url_download(message, resource, single_thread)
     if resource.media_group_id:
         resources = await message.client.get_media_group(
             resource.chat.id,
@@ -45,7 +45,7 @@ async def handle_download(message: Message, resource: Union[Message, str],
     return await tg_download(message, resource)
 
 
-async def url_download(message: Message, url: str) -> Tuple[str, int]:
+async def url_download(message: Message, url: str, single_thread: bool = False) -> Tuple[str, int]:
     """ download from link """
     pattern = r"^(?:(?:https|tg):\/\/)?(?:www\.)?(?:t\.me\/|openmessage\?)(?:(?:c\/(\d+))|(\w+)|(?:user_id\=(\d+)))(?:\/|&message_id\=)(\d+)(\?single)?$"  # noqa
     # group 1: private supergroup id, group 2: chat username,
@@ -81,6 +81,8 @@ async def url_download(message: Message, url: str) -> Tuple[str, int]:
             custom_file_name = c_file_name.strip()
     dl_loc = os.path.join(config.Dynamic.DOWN_PATH, custom_file_name)
     downloader = SmartDL(url, dl_loc, progress_bar=False)
+    if single_thread:
+        downloader = SmartDL(url, dl_loc, progress_bar=False, threads=1)
     downloader.start(blocking=False)
     with message.cancel_callback(downloader.stop):
         while not downloader.isFinished():
