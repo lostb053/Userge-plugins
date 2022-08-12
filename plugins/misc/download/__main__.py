@@ -27,8 +27,8 @@ async def down_load_media(message: Message):
     """ download from tg and url """
     if message.reply_to_message:
         resource = message.reply_to_message
-    elif message.input_str:
-        resource = message.input_str
+    elif message.filtered_input_str:
+        resource = message.filtered_input_str
     else:
         await message.err("nothing found to download")
         return
