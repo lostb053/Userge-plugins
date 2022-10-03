@@ -20,7 +20,7 @@ LOGGER = userge.getLogger(__name__)
     'header': "Download files to server",
     'usage': "{tr}download [url | reply to telegram media]",
     'examples': "{tr}download https://speed.hetzner.de/100MB.bin | testing upload.bin",
-    'flags': {"-st": "single threaded download"}
+    'flags': {'-st': "single threaded download"}
     },
     check_downpath=True)
 async def down_load_media(message: Message):
